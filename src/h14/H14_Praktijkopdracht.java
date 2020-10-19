@@ -18,8 +18,10 @@ public class H14_Praktijkopdracht extends Applet {
     private Image afbeeldingComputerLost;
     private URL pad;
     boolean start = false;
-    int count;
+    int count = 23;
     int num;
+    double pc;
+    int pcNumber;
 
     public void init() {
 
@@ -40,43 +42,53 @@ public class H14_Praktijkopdracht extends Applet {
 
     private void gameplyer(int num) {
 
-        count =- num;
+        count -= num;
 
-        int x = count / 4;
-        int pattern = 4 * x + 1;
+        if (count <= 0) {
+            this.YouLost(g);
+        }else if (count > 0)
+            pc = Math.random();
+        pcNumber = (int) (pc * 3 + 1);
+        count -= pcNumber;
+        System.out.println(pcNumber);
+        if (count <= 0) {
+            this.ComputerLost(Graphics(g));
+        }
+    }
 
-        if (count < pattern) {
-            pattern = 4 * (x - 1) + 1;
+
+    public void paint(Graphics g) {
+
+        fult.setSize(100, 20);
+        System.out.println(count);
+        for (int i = 1; i <= count; i++) {
+            g.drawImage(afbeeldingYouLost, 65 * i / 2, 60, 30, 30, this);
+
         }
 
     }
 
-    public void paint(Graphics g) {
+    public void ComputerLost(Graphics g) {
+        g.drawImage(afbeeldingComputerLost, 80, 60, 200, 200, this);
+        g.drawString("Computer lost", 50, 50);
+    }
 
-        if(start) {
-            fult.setSize(100, 20);
-            if (count == 0) {
-                g.drawImage(afbeeldingYouLost, 80, 60, 200, 200, this);
-                g.drawString("You are lost", 80, 80);
-            }else {
-                for (int i = 1; i <= count; i++) {
-                    g.drawImage(afbeeldingYouLost, 65 * i / 2, 60, 30, 30, this);
-                }
-            }
-        }
+    public void YouLost(Graphics g) {
+        g.drawImage(afbeeldingYouLost, 80, 60, 200, 200, this);
+        g.drawString("You are lost", 50, 50);
     }
 
     class gemaListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
 
-            start = true;
+
             num = Integer.parseInt(numPlay.getText());
 
             if (num <= 0 || num > 3) {
                 fult.setText("Onjuiste invoer");
-            }else {
-              fult.setText("");
+            } else {
+                fult.setText("");
             }
             gameplyer(num);
             repaint();

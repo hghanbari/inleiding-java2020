@@ -1,12 +1,12 @@
 package h14;
 
-import java.net.URL;
 import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
-public class H14_Praktijkopdracht extends Applet {
+public class H14_Patern extends Applet {
 
     Button pley = new Button("Speel");
     TextField numPlay = new TextField();
@@ -35,7 +35,7 @@ public class H14_Praktijkopdracht extends Applet {
         add(numPlay);
         add(fult);
 
-        pad = H14_Praktijkopdracht.class.getResource("./resources/");
+        pad = h14.H14_Praktijkopdracht.class.getResource("./resources/");
         afbeeldingPlay = getImage(pad, "Play.jpg");
         afbeeldingYouLost = getImage(pad, "You lost.jpg");
         afbeeldingComputerLost = getImage(pad, "Computer lost.jpg");
@@ -45,18 +45,28 @@ public class H14_Praktijkopdracht extends Applet {
     private void gameplyer(int num) {
 
         count -= num;
-        System.out.println(count);
+
         if (count <= 0) {
             you = true;
-            return;
+        }
+        int x = count / 4;
+        int pattern = 4 * x + 1;
+        if (count < pattern) {
+            pattern = 4 * (x - 1) + 1;
+        }
 
-        } else pc = Math.random();
-        pcNumber = (int) (pc * 2 + 1);
-        count -= pcNumber;
+        if (count == pattern) //we lost the pattern , so select a random number
+        {
 
-        if (count <= 0) {
-            computer = true;
-            return;
+            count--; // you can make a random digit between 1 to 3 here
+
+            if (count == 0) {
+                computer = true;
+            }
+            if (count > pattern) {
+
+                count = pattern;
+            }
         }
     }
 
@@ -76,7 +86,6 @@ public class H14_Praktijkopdracht extends Applet {
         }
         if (you) {
             this.YouLost(g);
-            return;
         }
 
         if (start) {
@@ -85,7 +94,7 @@ public class H14_Praktijkopdracht extends Applet {
     }
 
     public void ComputerLost(Graphics g) {
-        g.drawImage(afbeeldingComputerLost, 20-0, 50, 200, 200, this);
+        g.drawImage(afbeeldingComputerLost, 80, 60, 200, 200, this);
         g.drawString("Computer lost", 50, 50);
     }
 
@@ -98,7 +107,7 @@ public class H14_Praktijkopdracht extends Applet {
 
         public void actionPerformed(ActionEvent e) {
 
-            start=true;
+            start = true;
             num = Integer.parseInt(numPlay.getText());
 
             if (num <= 0 || num > 3) {
@@ -114,6 +123,8 @@ public class H14_Praktijkopdracht extends Applet {
         }
     }
 }
+
+
 
 
 

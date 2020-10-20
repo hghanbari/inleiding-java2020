@@ -51,7 +51,7 @@ public class H14_Praktijkopdracht extends Applet {
             return;
 
         } else pc = Math.random();
-        pcNumber = (int) (pc * 2 + 1);
+        pcNumber = (int) (pc * 3 + 1);
         count -= pcNumber;
 
         if (count <= 0) {
